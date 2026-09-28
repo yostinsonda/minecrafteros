@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos - Cafetería</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Listado de Productos</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Producto</th>
+                    <th>Categoría</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prod in productos %}
+                <tr>
+                    <td>{{ prod.id_producto }}</td>
+                    <td>{{ prod.nombre }}</td>
+                    <td>{{ prod.categoria }}</td>
+                    <td>${{ "%.2f"|format(prod.precio|float) }}</td>
+                    <td>{{ prod.stock }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        <a href="/" class="btn-secundario">Volver al Inicio</a>
+    </div>
+</body>
+</html>
