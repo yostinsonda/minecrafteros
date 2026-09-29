@@ -4,12 +4,32 @@
     <meta charset="UTF-8">
     <title>Pedidos - Cafetería</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .acciones-abajo {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .form-accion {
+            display: inline-block;
+            margin-right: 20px;
+            margin-bottom: 10px;
+        }
+        .form-accion input[type="number"] {
+            width: 80px;
+            padding: 5px;
+        }
+        .btn-actualizar { background-color: #2196F3; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-borrar { background-color: #f44336; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Listado de Pedidos</h1>
         
-        <!-- Botón Agregar va FUERA de la tabla (sin ID) -->
+        <!-- Botón Agregar arriba -->
         <a href="/Agregar_pedido" class="btn">Agregar Pedido</a>
         <br><br>
 
@@ -21,11 +41,9 @@
                     <th>Fecha</th>
                     <th>Estado</th>
                     <th>Total</th>
-                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Dentro del ciclo 'for' sí usamos 'ped' -->
                 {% for ped in pedidos %}
                 <tr>
                     <td>{{ ped.idpedido }}</td>
@@ -33,16 +51,32 @@
                     <td>{{ ped.fecha }}</td>
                     <td>{{ ped.estado }}</td>
                     <td>${{ "%.2f"|format(ped.total|float) }}</td>
-                    <td>
-                        <!-- Botones que requieren ID van DENTRO de la tabla -->
-                        <a href="/Actualizar_pedido/{{ ped.idpedido }}">Actualizar</a> | 
-                        <a href="/Borrar_pedido/{{ ped.idpedido }}" onclick="return confirm('¿Seguro que deseas borrar este pedido?');">Borrar</a>
-                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+
+        <!-- Sección de acciones FUERA y ABAJO de la tabla -->
+        <div class="acciones-abajo">
+            <h3>Acciones sobre pedidos:</h3>
+            
+            <!-- Formulario Actualizar -->
+            <form action="/buscar_actualizar_pedido" method="POST" class="form-accion">
+                <label for="id_ped_act">ID a Actualizar:</label>
+                <input type="number" id="id_ped_act" name="id_pedido" required min="1">
+                <button type="submit" class="btn-actualizar">Actualizar Pedido</button>
+            </form>
+
+            <!-- Formulario Borrar -->
+            <form action="/Borrar_pedido" method="POST" class="form-accion" onsubmit="return confirm('¿Seguro que deseas borrar este pedido?');">
+                <label for="id_ped_bor">ID a Borrar:</label>
+                <input type="number" id="id_ped_bor" name="id_pedido" required min="1">
+                <button type="submit" class="btn-borrar">Borrar Pedido</button>
+            </form>
+        </div>
+
         <br>
+        <a href="/productos" class="btn-secundario">Ir a Productos</a>
         <a href="/" class="btn-secundario">Volver al Inicio</a>
     </div>
 </body>

@@ -4,12 +4,32 @@
     <meta charset="UTF-8">
     <title>Productos - Cafetería</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .acciones-abajo {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .form-accion {
+            display: inline-block;
+            margin-right: 20px;
+            margin-bottom: 10px;
+        }
+        .form-accion input[type="number"] {
+            width: 80px;
+            padding: 5px;
+        }
+        .btn-actualizar { background-color: #2196F3; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-borrar { background-color: #f44336; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Listado de Productos</h1>
         
-        <!-- El botón Agregar va FUERA de la tabla y NO lleva prod.id_producto -->
+        <!-- Botón Agregar arriba -->
         <a href="/Agregar_producto" class="btn">Agregar Producto</a>
         <br><br>
 
@@ -21,11 +41,9 @@
                     <th>Categoría</th>
                     <th>Precio</th>
                     <th>Stock</th>
-                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Dentro del FOR sí podemos usar 'prod' -->
                 {% for prod in productos %}
                 <tr>
                     <td>{{ prod.id_producto }}</td>
@@ -33,16 +51,32 @@
                     <td>{{ prod.categoria }}</td>
                     <td>${{ "%.2f"|format(prod.precio|float) }}</td>
                     <td>{{ prod.stock }}</td>
-                    <td>
-                        <!-- Los botones con ID van DENTRO del ciclo -->
-                        <a href="/Actualizar_producto/{{ prod.id_producto }}">Actualizar</a> | 
-                        <a href="/Borrar_producto/{{ prod.id_producto }}" onclick="return confirm('¿Seguro que deseas borrar este producto?');">Borrar</a>
-                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+
+        <!-- Sección de acciones FUERA y ABAJO de la tabla -->
+        <div class="acciones-abajo">
+            <h3>Acciones sobre productos:</h3>
+            
+            <!-- Formulario Actualizar -->
+            <form action="/buscar_actualizar_producto" method="POST" class="form-accion">
+                <label for="id_prod_act">ID a Actualizar:</label>
+                <input type="number" id="id_prod_act" name="id_producto" required min="1">
+                <button type="submit" class="btn-actualizar">Actualizar Producto</button>
+            </form>
+
+            <!-- Formulario Borrar -->
+            <form action="/Borrar_producto" method="POST" class="form-accion" onsubmit="return confirm('¿Seguro que deseas borrar este producto?');">
+                <label for="id_prod_bor">ID a Borrar:</label>
+                <input type="number" id="id_prod_bor" name="id_producto" required min="1">
+                <button type="submit" class="btn-borrar">Borrar Producto</button>
+            </form>
+        </div>
+
         <br>
+        <a href="/pedidos" class="btn-secundario">Ir a Pedidos</a>
         <a href="/" class="btn-secundario">Volver al Inicio</a>
     </div>
 </body>

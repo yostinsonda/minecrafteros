@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Actualizar Pedido</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Actualizar Pedido</h1>
+        <form action="/Actualizar_pedido/{{ ped.idpedido }}" method="POST">
+            <label>Cliente:</label><br>
+            <input type="text" name="cliente" value="{{ ped.cliente }}" required><br><br>
+
+            <label>Fecha:</label><br>
+            <input type="date" name="fecha" value="{{ ped.fecha }}" required><br><br>
+
+            <label>Estado:</label><br>
+            <select name="estado" required>
+                <option value="Pendiente" {% if ped.estado == 'Pendiente' %}selected{% endif %}>Pendiente</option>
+                <option value="Completado" {% if ped.estado == 'Completado' %}selected{% endif %}>Completado</option>
+                <option value="Cancelado" {% if ped.estado == 'Cancelado' %}selected{% endif %}>Cancelado</option>
+            </select><br><br>
+
+            <label>Total:</label><br>
+            <input type="number" step="0.01" name="total" value="{{ ped.total }}" required><br><br>
+
+            <button type="submit" class="btn">Actualizar Pedido</button>
+            <a href="/pedidos" class="btn-secundario">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>
