@@ -8,17 +8,24 @@
 <body>
     <div class="container">
         <h1>Listado de Pedidos</h1>
+        
+        <!-- Botón Agregar va FUERA de la tabla (sin ID) -->
+        <a href="/Agregar_pedido" class="btn">Agregar Pedido</a>
+        <br><br>
+
         <table>
             <thead>
                 <tr>
-                    <th>ID pedido</th>
+                    <th>ID Pedido</th>
                     <th>Cliente</th>
                     <th>Fecha</th>
                     <th>Estado</th>
                     <th>Total</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
+                <!-- Dentro del ciclo 'for' sí usamos 'ped' -->
                 {% for ped in pedidos %}
                 <tr>
                     <td>{{ ped.idpedido }}</td>
@@ -26,6 +33,11 @@
                     <td>{{ ped.fecha }}</td>
                     <td>{{ ped.estado }}</td>
                     <td>${{ "%.2f"|format(ped.total|float) }}</td>
+                    <td>
+                        <!-- Botones que requieren ID van DENTRO de la tabla -->
+                        <a href="/Actualizar_pedido/{{ ped.idpedido }}">Actualizar</a> | 
+                        <a href="/Borrar_pedido/{{ ped.idpedido }}" onclick="return confirm('¿Seguro que deseas borrar este pedido?');">Borrar</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

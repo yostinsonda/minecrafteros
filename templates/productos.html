@@ -8,6 +8,11 @@
 <body>
     <div class="container">
         <h1>Listado de Productos</h1>
+        
+        <!-- El botón Agregar va FUERA de la tabla y NO lleva prod.id_producto -->
+        <a href="/Agregar_producto" class="btn">Agregar Producto</a>
+        <br><br>
+
         <table>
             <thead>
                 <tr>
@@ -16,9 +21,11 @@
                     <th>Categoría</th>
                     <th>Precio</th>
                     <th>Stock</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
+                <!-- Dentro del FOR sí podemos usar 'prod' -->
                 {% for prod in productos %}
                 <tr>
                     <td>{{ prod.id_producto }}</td>
@@ -26,6 +33,11 @@
                     <td>{{ prod.categoria }}</td>
                     <td>${{ "%.2f"|format(prod.precio|float) }}</td>
                     <td>{{ prod.stock }}</td>
+                    <td>
+                        <!-- Los botones con ID van DENTRO del ciclo -->
+                        <a href="/Actualizar_producto/{{ prod.id_producto }}">Actualizar</a> | 
+                        <a href="/Borrar_producto/{{ prod.id_producto }}" onclick="return confirm('¿Seguro que deseas borrar este producto?');">Borrar</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
