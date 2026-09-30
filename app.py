@@ -144,6 +144,7 @@ def agregar_pedido():
         conn.close()
         return redirect(url_for("listar_pedidos"))
 
+    # Para el método GET: cargamos los clientes para llenar el desplegable <select>
     cursor.execute("SELECT id_cliente, nombre FROM clientes")
     clientes_lista = cursor.fetchall()
     cursor.close()
